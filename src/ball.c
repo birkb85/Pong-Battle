@@ -44,7 +44,7 @@ void Ball_Move(struct Ball *ball)
     move_sprite(ball->sprId, ball->x + sprOffsetX, ball->y + sprOffsetY);
 }
 
-void Ball_CheckCollision(struct Ball *ball, struct Bat *bat, UINT8 isBatL)
+void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
 {
     // if (ball->x + ball->w > bat->x && ball->x < bat->x + bat->w)
     // {
@@ -56,7 +56,7 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat, UINT8 isBatL)
         {
             if (ball->y + ball->h >= bat->y && ball->y < bat->y + bat->h)
             {
-                if ((isBatL && ball->vx < 0) || (!isBatL && ball->vx > 0))
+                if ((bat->isBatL && ball->vx < 0) || (!bat->isBatL && ball->vx > 0))
                     ball->vx = -ball->vx;
             }
         }
@@ -64,7 +64,7 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat, UINT8 isBatL)
         {
             if (ball->y < (UINT8)(bat->y + bat->h))
             {
-                if ((isBatL && ball->vx < 0) || (!isBatL && ball->vx > 0))
+                if ((bat->isBatL && ball->vx < 0) || (!bat->isBatL && ball->vx > 0))
                     ball->vx = -ball->vx;
             }
         }

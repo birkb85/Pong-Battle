@@ -1,7 +1,13 @@
 #include "bat.h"
 
-void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex)
+void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL)
 {
+    bat->x = x;
+    bat->y = y;
+    bat->w = 8;
+    bat->h = sizeof(bat->sprIds) * 8;
+    bat->isBatL = isBatL;
+    
     for (UINT8 i = 0; i < sizeof(bat->sprIds); i++)
     {
         set_sprite_tile(sprStartIndex + i, tileStartIndex + i);
@@ -12,11 +18,6 @@ void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 til
     {
         bat->collision[i] = 0xFF;
     }
-
-    bat->x = x;
-    bat->y = y;
-    bat->w = 8;
-    bat->h = sizeof(bat->sprIds) * 8;
 
     Bat_Move(bat);
 }

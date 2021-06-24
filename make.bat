@@ -1,3 +1,6 @@
+rmdir /s /q obj
+rmdir /s /q build
+
 mkdir obj
 mkdir build
 
