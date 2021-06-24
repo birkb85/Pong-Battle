@@ -21,7 +21,7 @@ void Ball_Reset(struct Ball *ball)
     ball->y = 68; // 144 / 2 - 4
 
     ball->vx = 1; // TODO BB 2021-06-21. Make random.
-    ball->vy = 1; // TODO BB 2021-06-21. Make random.
+    ball->vy = 0; // TODO BB 2021-06-21. Make random.
 }
 
 void Ball_Move(struct Ball *ball)

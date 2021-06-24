@@ -1,12 +1,14 @@
 #include <gb/gb.h>
 #include <stdio.h>
 #include <string.h>
+#include <rand.h>
 #include "../res/bat_spr.h"
 #include "../res/ball_spr.h"
 #include "bat.h"
 #include "ball.h"
 
 UINT8 tempSpr[16];
+unsigned char tempSpr2[32];
 
 struct Bat batL;
 struct Bat batR;
@@ -15,9 +17,17 @@ struct Ball ball;
 
 UINT8 controls;
 
+UINT8 yTop;
+UINT8 yBot;
+UINT8 sprNbStart;
+UINT8 sprNbStartRemaining;
+UINT8 sprNbEnd;
+UINT8 sprNbEndRemaining;
+
 void main(void)
 {
     memset(tempSpr, 0, 16);
+    memset(tempSpr2, 0, 32);
 
     set_sprite_data(0, 24, batSpr);
     set_sprite_data(24, 1, ballSpr);
@@ -29,6 +39,10 @@ void main(void)
 
     SHOW_SPRITES;
     DISPLAY_ON;
+
+    waitpad(0xFF);
+
+    initarand(DIV_REG);
 
     while (1)
     {
@@ -43,13 +57,41 @@ void main(void)
             Bat_MoveDown(&batR);
 
         // Tester at kopiere sprite til ram, modificere den og sætte den ind i stedet for en anden.
+        if (controls & J_SELECT)
+        {
+            memcpy(&tempSpr, &ballSpr, 16);
+            memset(&tempSpr[4], 0, 4);
+            set_sprite_data(0, 1, tempSpr);
+        }
+
+        // TODO BB 2021-06-24. Testing making a hole in the left bat.
         if (controls & J_START)
         {
-            for (UINT8 i = 0; i < 24; i++)
+            yTop = arand(); //12;
+            if (yTop < batL.h)
             {
-                memcpy(&tempSpr, &ballSpr, 16);
-                memset(&tempSpr + 4, 0, 4);
-                set_sprite_data(i, 1, tempSpr);
+                yBot = yTop + 8;
+                if (yBot > batL.h)
+                    yBot = batL.h;
+                yTop <<= 1;
+                yBot <<= 1;
+                sprNbStart = (yTop >> 4) << 4;
+                sprNbStartRemaining = yTop - sprNbStart;
+                sprNbEnd = (yBot >> 4) << 4;
+                sprNbEndRemaining = yBot - sprNbEnd;
+                //get_sprite_data(sprNbStart >> 4, 1, &tempSpr2[0]); // TODO BB Hent date ud fra ram og modificer det.
+                memcpy(&tempSpr, &batSpr[sprNbStart], 16);
+                memset(&tempSpr[sprNbStartRemaining], 0, 16 - sprNbStartRemaining);
+                set_sprite_data(sprNbStart >> 4, 1, tempSpr);
+                batL.collision[sprNbStart >> 4] &= 0xFF << ((16 - sprNbStartRemaining) >> 1);
+                if (sprNbEndRemaining != 0)
+                {
+                    //get_sprite_data(sprNbEnd >> 4, 1, &tempSpr2[0]);
+                    memcpy(&tempSpr, &batSpr[sprNbEnd], 16);
+                    memset(&tempSpr, 0, sprNbEndRemaining);
+                    set_sprite_data(sprNbEnd >> 4, 1, tempSpr);
+                    batL.collision[sprNbEnd >> 4] &= 0xFF >> (sprNbEndRemaining >> 1);
+                }
             }
         }
 
