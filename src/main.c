@@ -50,6 +50,12 @@ void main(void)
             Bat_Hit(&batL, arand());
         }
 
+        // TODO BB 2021-06-24. Testing making a hole in the right bat.
+        if (controls & J_SELECT)
+        {
+            Bat_Hit(&batR, arand());
+        }
+
         Ball_Move(&ball);
         Ball_CheckCollision(&ball, &batL);
         Ball_CheckCollision(&ball, &batR);

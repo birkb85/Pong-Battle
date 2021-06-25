@@ -10,6 +10,7 @@
 typedef struct Bat
 {
     UINT8 sprIds[12];
+    UINT8 tileIds[12];
     UINT8 collision[12];
     UINT8 x;
     UINT8 y;
