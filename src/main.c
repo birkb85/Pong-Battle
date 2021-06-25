@@ -3,6 +3,7 @@
 #include <string.h>
 #include <rand.h>
 #include "../res/bat_spr.h"
+#include "../res/bat_col_spr.h"
 #include "../res/ball_spr.h"
 #include "bat.h"
 #include "ball.h"
@@ -26,12 +27,13 @@ void main(void)
 
     set_sprite_data(0, 12, batSpr);
     set_sprite_data(12, 12, batSpr);
-    set_sprite_data(24, 1, ballSpr);
+    set_sprite_data(24, 12, batColSpr);
+    set_sprite_data(36, 1, ballSpr);
 
     Bat_Setup(&batL, 8, 24, 0, 0, TRUE);
     Bat_Setup(&batR, 144, 24, 12, 12, FALSE);
 
-    Ball_Setup(&ball, 24, 24);
+    Ball_Setup(&ball, 24, 36);
 
     SHOW_SPRITES;
     DISPLAY_ON;
