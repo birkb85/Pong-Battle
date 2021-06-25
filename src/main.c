@@ -29,13 +29,13 @@ void main(void)
     memset(tempSpr, 0, 16);
     memset(tempSpr2, 0, 32);
 
-    set_sprite_data(0, 24, batSpr);
-    set_sprite_data(24, 1, ballSpr);
+    set_sprite_data(0, 12, batSpr);
+    set_sprite_data(12, 1, ballSpr);
 
     Bat_Setup(&batL, 8, 24, 0, 0, TRUE);
-    Bat_Setup(&batR, 144, 24, 12, 12, FALSE);
+    Bat_Setup(&batR, 144, 24, 12, 0, FALSE);
 
-    Ball_Setup(&ball, 24, 24);
+    Ball_Setup(&ball, 24, 12);
 
     SHOW_SPRITES;
     DISPLAY_ON;

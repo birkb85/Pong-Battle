@@ -12,6 +12,9 @@ void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 til
     {
         set_sprite_tile(sprStartIndex + i, tileStartIndex + i);
         bat->sprIds[i] = sprStartIndex + i;
+
+        if (!isBatL)
+            set_sprite_prop(sprStartIndex + i, S_FLIPX);
     }
 
     for (UINT8 i = 0; i < sizeof(bat->collision); i++)
