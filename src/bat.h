@@ -2,6 +2,7 @@
 #define BAT_H
 
 #include <gb/gb.h>
+#include <string.h>
 #include "global.h"
 
 typedef struct Bat

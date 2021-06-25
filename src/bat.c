@@ -17,10 +17,7 @@ void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 til
             set_sprite_prop(sprStartIndex + i, S_FLIPX);
     }
 
-    for (UINT8 i = 0; i < sizeof(bat->collision); i++)
-    {
-        bat->collision[i] = 0xFF;
-    }
+    memset(&bat->collision[0], 0xFF, sizeof(bat->collision));
 
     Bat_Move(bat);
 }
