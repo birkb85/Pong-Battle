@@ -65,43 +65,30 @@ void main(void)
         // TODO BB 2021-06-24. Testing making a hole in the left bat.
         if (controls & J_START)
         {
-            yTop = 2;//arand();
+            yTop = arand();
             if (yTop < batL.h)
             {
                 sprNbStart = yTop >> 3;
                 sprNbStartBitsHit = yTop - (sprNbStart << 3);
 
-                batL.collision[sprNbStart] ^= 0xFF >> sprNbStartBitsHit;
-                // TODO BB 2021-06-25. Modify sprite here.
+                batL.collision[sprNbStart] &= 0xFF << (8 - sprNbStartBitsHit);
+                for (UINT8 i = 0; i < 8; i++)
+                    if ((batL.collision[sprNbStart] >> i) & 0x01)
+                        memcpy(&tempSpr[(7 - i) << 1], &batSpr[(sprNbStart << 4) + ((7 - i) << 1)], 2);
+                    else
+                        memset(&tempSpr[(7 - i) << 1], 0x00, 2);
+                set_sprite_data(sprNbStart, 1, tempSpr);
 
                 if (sprNbStartBitsHit > 0 && sprNbStart < (sizeof(batL.collision) - 1))
                 {
-                    batL.collision[sprNbStart + 1] ^= 0xFF << (8 - sprNbStartBitsHit);
-                    // TODO BB 2021-06-25. Modify sprite here.
+                    batL.collision[sprNbStart + 1] &= 0xFF >> sprNbStartBitsHit;
+                    for (UINT8 i = 0; i < 8; i++)
+                        if ((batL.collision[sprNbStart + 1] >> i) & 0x01)
+                            memcpy(&tempSpr[(7 - i) << 1], &batSpr[((sprNbStart + 1) << 4) + ((7 - i) << 1)], 2);
+                        else
+                            memset(&tempSpr[(7 - i) << 1], 0x00, 2);
+                    set_sprite_data(sprNbStart + 1, 1, tempSpr);
                 }
-
-                // yBot = yTop + 8;
-                // if (yBot > batL.h)
-                //     yBot = batL.h;
-                // yTop <<= 1;
-                // yBot <<= 1;
-                // sprNbStart = (yTop >> 4) << 4;
-                // sprNbStartRemaining = yTop - sprNbStart;
-                // sprNbEnd = (yBot >> 4) << 4;
-                // sprNbEndRemaining = yBot - sprNbEnd;
-                // //get_sprite_data(sprNbStart >> 4, 1, &tempSpr2[0]); // TODO BB Hent date ud fra ram og modificer det.
-                // memcpy(&tempSpr, &batSpr[sprNbStart], 16);
-                // memset(&tempSpr[sprNbStartRemaining], 0, 16 - sprNbStartRemaining);
-                // set_sprite_data(sprNbStart >> 4, 1, tempSpr);
-                // batL.collision[sprNbStart >> 4] &= 0xFF << ((16 - sprNbStartRemaining) >> 1);
-                // if (sprNbEndRemaining != 0)
-                // {
-                //     //get_sprite_data(sprNbEnd >> 4, 1, &tempSpr2[0]);
-                //     memcpy(&tempSpr, &batSpr[sprNbEnd], 16);
-                //     memset(&tempSpr, 0, sprNbEndRemaining);
-                //     set_sprite_data(sprNbEnd >> 4, 1, tempSpr);
-                //     batL.collision[sprNbEnd >> 4] &= 0xFF >> (sprNbEndRemaining >> 1);
-                // }
             }
         }
 
