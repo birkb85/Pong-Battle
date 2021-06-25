@@ -3,6 +3,8 @@
 
 #include <gb/gb.h>
 #include <string.h>
+#include "../res/bat_spr.h"
+#include "../res/bat_col_spr.h"
 #include "global.h"
 
 typedef struct Bat
@@ -20,5 +22,6 @@ extern void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UI
 extern void Bat_Move(struct Bat *bat);
 extern void Bat_MoveUp(struct Bat *bat);
 extern void Bat_MoveDown(struct Bat *bat);
+extern void Bat_Hit(struct Bat *bat, UINT8 yTop);
 
 #endif

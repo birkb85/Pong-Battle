@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "string.h": "c",
-        "rand.h": "c"
+        "rand.h": "c",
+        "bat_spr.h": "c"
     }
 }
