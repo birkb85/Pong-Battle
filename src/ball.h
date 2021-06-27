@@ -12,8 +12,7 @@ struct Ball
     UINT8 y;
     UINT8 w;
     UINT8 h;
-    INT8 dirX;
-    UINT8 speedX;
+    INT8 vx;
     INT8 vy;
 };
 

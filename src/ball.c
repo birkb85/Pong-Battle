@@ -9,8 +9,7 @@ void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex)
     ball->y = 0;
     ball->w = 8;
     ball->h = 8;
-    ball->dirX = 1; // TODO BB 2021-06-21. Make random.
-    ball->speedX = 0;
+    ball->vx = 1; // TODO BB 2021-06-21. Make random.
     ball->vy = 0;
 
     Ball_Reset(ball);
@@ -21,13 +20,12 @@ void Ball_Reset(struct Ball *ball)
     ball->x = 76; //(SCREENWIDTH >> 1) - 4;
     ball->y = 68; //(SCREENHEIGHT >> 1) - 4;
 
-    ball->speedX = 1;
     ball->vy = 0;
 }
 
 void Ball_Move(struct Ball *ball)
 {
-    ball->x += ball->dirX * ball->speedX;
+    ball->x += ball->vx;
 
     if (ball->vy < 0 && ball->y + ball->vy >= SCREENHEIGHT - ball->h)
     {
@@ -51,8 +49,8 @@ INT8 ball_yTop;
 
 void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
 {
-    if (bat->isBatL && ball->dirX > 0) return;
-    if (!bat->isBatL && ball->dirX < 0) return;
+    if (bat->isBatL && ball->vx > 0) return;
+    if (!bat->isBatL && ball->vx < 0) return;
 
     if (ball->x + ball->w >= bat->x && ball->x < bat->x + bat->w)
     {
@@ -65,12 +63,8 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
                 ball_yTop = bat->h - ball_yDiff;
                 if (Bat_CheckCollision(bat, ball_yTop))
                 {
-                    ball->dirX = -ball->dirX;
+                    ball->vx = -ball->vx;
                     ball->vy = Bat_GetVY(bat);
-                    if (ball->vy == 0)
-                        ball->speedX = 2;
-                    else
-                        ball->speedX = 1;
                     Bat_Hit(bat, ball_yTop);
                 }
             }
