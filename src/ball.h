@@ -12,12 +12,14 @@ struct Ball
     UINT8 y;
     UINT8 w;
     UINT8 h;
-    INT8 vx;
-    INT8 vy;
+    INT8 forceX;
+    INT8 forceY;
 };
 
 extern void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex);
 extern void Ball_Reset(struct Ball *ball);
+extern INT8 Ball_GetVX(struct Ball *ball);
+extern INT8 Ball_GetVY(struct Ball *ball);
 extern void Ball_Move(struct Ball *ball);
 extern void Ball_CheckCollision(struct Ball *ball, struct Bat *bat);
 extern void Ball_CheckGoal(struct Ball *ball);

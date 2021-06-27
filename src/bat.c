@@ -1,7 +1,7 @@
 #include "bat.h"
 
 UINT8 bat_i;
-const UINT8 bat_forceAcc = 2;
+const INT8 bat_forceAcc = 2;
 const INT8 bat_forceMax = 12;
 
 void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL)
@@ -56,10 +56,12 @@ void Bat_Down(struct Bat *bat)
 
 void Bat_Stop(struct Bat *bat)
 {
-    if (bat->forceY < 0)
+    if (bat->forceY < -bat_forceAcc)
         bat->forceY += bat_forceAcc;
-    else if (bat->forceY > 0)
+    else if (bat->forceY > bat_forceAcc)
         bat->forceY -= bat_forceAcc;
+    else
+        bat->forceY = 0;
 }
 
 UINT8 bat_sprTemp[16];

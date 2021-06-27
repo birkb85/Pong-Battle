@@ -1,5 +1,8 @@
 #include "ball.h"
 
+const INT8 ball_forceYAcc = 2;
+const INT8 ball_forceXMin = 32;
+
 void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex)
 {
     set_sprite_tile(sprStartIndex, tileStartIndex);
@@ -9,8 +12,8 @@ void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex)
     ball->y = 0;
     ball->w = 8;
     ball->h = 8;
-    ball->vx = 1; // TODO BB 2021-06-21. Make random.
-    ball->vy = 0;
+    ball->forceX = ball_forceXMin; // TODO BB 2021-06-21. Make random.
+    ball->forceY = 0;
 
     Ball_Reset(ball);
 }
@@ -20,25 +23,56 @@ void Ball_Reset(struct Ball *ball)
     ball->x = 76; //(SCREENWIDTH >> 1) - 4;
     ball->y = 68; //(SCREENHEIGHT >> 1) - 4;
 
-    ball->vy = 0;
+    ball->forceY = 0;
+}
+
+INT8 Ball_GetVX(struct Ball *ball)
+{
+    return ball->forceX >> 4;
+}
+
+INT8 Ball_GetVY(struct Ball *ball)
+{
+    return ball->forceY >> 4;
+}
+
+void Ball_StopX(struct Ball *ball)
+{
+    if (ball->forceX > ball_forceXMin)
+        ball->forceX --;
+    else if (ball->forceX < -ball_forceXMin)
+        ball->forceX ++;
+}
+
+void Ball_StopY(struct Ball *ball)
+{
+    if (ball->forceY < -ball_forceYAcc)
+        ball->forceY += ball_forceYAcc;
+    else if (ball->forceY > ball_forceYAcc)
+        ball->forceY -= ball_forceYAcc;
+    else
+        ball->forceY = 0;
 }
 
 void Ball_Move(struct Ball *ball)
 {
-    ball->x += ball->vx;
+    Ball_StopX(ball);
+    Ball_StopY(ball);
 
-    if (ball->vy < 0 && ball->y + ball->vy >= SCREENHEIGHT - ball->h)
+    ball->x += Ball_GetVX(ball);
+
+    if (ball->forceY < 0 && ball->y + Ball_GetVY(ball) >= SCREENHEIGHT - ball->h)
     {
         ball->y = 0;
-        ball->vy = -ball->vy;
+        ball->forceY = -ball->forceY;
     }
-    else if (ball->vy > 0 && ball->y + ball->vy >= SCREENHEIGHT - ball->h)
+    else if (ball->forceY > 0 && ball->y + Ball_GetVY(ball) >= SCREENHEIGHT - ball->h)
     {
         ball->y = SCREENHEIGHT - ball->h;
-        ball->vy = -ball->vy;
+        ball->forceY = -ball->forceY;
     }
     else
-        ball->y += ball->vy;
+        ball->y += Ball_GetVY(ball);
 
     move_sprite(ball->sprId, ball->x + sprOffsetX, ball->y + sprOffsetY);
 }
@@ -49,8 +83,8 @@ INT8 ball_yTop;
 
 void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
 {
-    if (bat->isBatL && ball->vx > 0) return;
-    if (!bat->isBatL && ball->vx < 0) return;
+    if (bat->isBatL && ball->forceX > 0) return;
+    if (!bat->isBatL && ball->forceX < 0) return;
 
     if (ball->x + ball->w >= bat->x && ball->x < bat->x + bat->w)
     {
@@ -63,8 +97,11 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
                 ball_yTop = bat->h - ball_yDiff;
                 if (Bat_CheckCollision(bat, ball_yTop))
                 {
-                    ball->vx = -ball->vx;
-                    ball->vy = Bat_GetVY(bat);
+                    if (ball->forceX > 0)
+                        ball->forceX = -64;
+                    else
+                        ball->forceX = 64;
+                    ball->forceY = Bat_GetVY(bat) << 5;
                     Bat_Hit(bat, ball_yTop);
                 }
             }
