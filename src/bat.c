@@ -44,33 +44,42 @@ void Bat_MoveDown(struct Bat *bat)
 }
 
 UINT8 bat_sprTemp[16];
-UINT8 bat_sprTop;
-UINT8 bat_sprTopHit;
+UINT8 bat_sprNb;
+UINT8 bat_sprNbHit;
+INT8 bat_yBot;
 
-void Bat_Hit(struct Bat *bat, UINT8 yTop)
+void Bat_Hit(struct Bat *bat, INT8 yTop)
 {
-    if (yTop < bat->h)
-    {
-        bat_sprTop = yTop >> 3;
-        bat_sprTopHit = yTop - (bat_sprTop << 3);
+    bat_yBot = yTop + 8;
 
-        bat->collision[bat_sprTop] &= 0xFF << (8 - bat_sprTopHit);
+    if (yTop >= 0 && yTop < (INT8)bat->h)
+    {
+        bat_sprNb = yTop >> 3;
+        bat_sprNbHit = yTop - (bat_sprNb << 3);
+
+        bat->collision[bat_sprNb] &= 0xFF << (8 - bat_sprNbHit);
         for (UINT8 i = 0; i < 8; i++)
-            if ((bat->collision[bat_sprTop] >> i) & 0x01)
-                memcpy(&bat_sprTemp[(7 - i) << 1], &batSpr[(bat_sprTop << 4) + ((7 - i) << 1)], 2);
+            if ((bat->collision[bat_sprNb] >> i) & 0x01)
+                memcpy(&bat_sprTemp[(7 - i) << 1], &batSpr[(bat_sprNb << 4) + ((7 - i) << 1)], 2);
             else
                 memset(&bat_sprTemp[(7 - i) << 1], 0x00, 2);
-        set_sprite_data(bat->tileIds[0] + bat_sprTop, 1, bat_sprTemp);
+        set_sprite_data(bat->tileIds[0] + bat_sprNb, 1, bat_sprTemp);
+    }
 
-        if (bat_sprTopHit > 0 && bat_sprTop < (sizeof(bat->collision) - 1))
+    if (bat_yBot >= 0 && bat_yBot < (INT8)bat->h)
+    {
+        bat_sprNb = bat_yBot >> 3;
+        bat_sprNbHit = bat_yBot - (bat_sprNb << 3);
+
+        if (bat_sprNbHit > 0)
         {
-            bat->collision[bat_sprTop + 1] &= 0xFF >> bat_sprTopHit;
+            bat->collision[bat_sprNb] &= 0xFF >> bat_sprNbHit;
             for (UINT8 i = 0; i < 8; i++)
-                if ((bat->collision[bat_sprTop + 1] >> i) & 0x01)
-                    memcpy(&bat_sprTemp[(7 - i) << 1], &batSpr[((bat_sprTop + 1) << 4) + ((7 - i) << 1)], 2);
+                if ((bat->collision[bat_sprNb] >> i) & 0x01)
+                    memcpy(&bat_sprTemp[(7 - i) << 1], &batSpr[(bat_sprNb << 4) + ((7 - i) << 1)], 2);
                 else
                     memset(&bat_sprTemp[(7 - i) << 1], 0x00, 2);
-            set_sprite_data(bat->tileIds[0] + bat_sprTop + 1, 1, bat_sprTemp);
+            set_sprite_data(bat->tileIds[0] + bat_sprNb, 1, bat_sprTemp);
         }
     }
 }

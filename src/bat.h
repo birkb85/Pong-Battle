@@ -23,6 +23,6 @@ extern void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UI
 extern void Bat_Move(struct Bat *bat);
 extern void Bat_MoveUp(struct Bat *bat);
 extern void Bat_MoveDown(struct Bat *bat);
-extern void Bat_Hit(struct Bat *bat, UINT8 yTop);
+extern void Bat_Hit(struct Bat *bat, INT8 yTop);
 
 #endif
