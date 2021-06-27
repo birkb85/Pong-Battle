@@ -14,7 +14,7 @@ struct Ball ball;
 
 UINT8 controls;
 
-void main(void)
+void ResetGame()
 {
     set_sprite_data(0, 12, batSpr);
     set_sprite_data(12, 12, batSpr);
@@ -24,6 +24,11 @@ void main(void)
     Bat_Setup(&batR, 144, 24, 12, 12, FALSE);
 
     Ball_Setup(&ball, 24, 24);
+}
+
+void main(void)
+{
+    ResetGame();
 
     SHOW_SPRITES;
     DISPLAY_ON;
@@ -67,7 +72,11 @@ void main(void)
         Ball_Move(&ball);        
         Ball_CheckCollision(&ball, &batL);
         Ball_CheckCollision(&ball, &batR);
-        Ball_CheckGoal(&ball);
+
+        if (Ball_CheckGoal(&ball))
+        {
+            ResetGame();
+        }
 
         wait_vbl_done();
     }

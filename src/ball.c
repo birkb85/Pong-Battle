@@ -8,21 +8,11 @@ void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex)
     set_sprite_tile(sprStartIndex, tileStartIndex);
     ball->sprId = sprStartIndex;
 
-    ball->x = 0;
-    ball->y = 0;
-    ball->w = 8;
-    ball->h = 8;
-    ball->forceX = ball_forceXMin; // TODO BB 2021-06-21. Make random.
-    ball->forceY = 0;
-
-    Ball_Reset(ball);
-}
-
-void Ball_Reset(struct Ball *ball)
-{
     ball->x = 76; //(SCREENWIDTH >> 1) - 4;
     ball->y = 68; //(SCREENHEIGHT >> 1) - 4;
-
+    ball->w = 8;
+    ball->h = 8;
+    ball->forceX = -ball_forceXMin; // TODO BB 2021-06-21. Make random.
     ball->forceY = 0;
 }
 
@@ -109,8 +99,10 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
     }
 }
 
-void Ball_CheckGoal(struct Ball *ball)
+UINT8 Ball_CheckGoal(struct Ball *ball)
 {
     if (ball->x >= SCREENWIDTH && ball->x < 0xFF - ball->w)
-        Ball_Reset(ball);
+        return TRUE;
+    else
+        return FALSE;
 }
