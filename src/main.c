@@ -36,13 +36,18 @@ void main(void)
     {
         controls = joypad();
         if (controls & J_UP)
-            Bat_MoveUp(&batL);
-        if (controls & J_DOWN)
-            Bat_MoveDown(&batL);
+            Bat_Up(&batL);
+        else if (controls & J_DOWN)
+            Bat_Down(&batL);
+        else
+            Bat_Stop(&batL);
+
         if (controls & J_A)
-            Bat_MoveUp(&batR);
-        if (controls & J_B)
-            Bat_MoveDown(&batR);
+            Bat_Up(&batR);
+        else if (controls & J_B)
+            Bat_Down(&batR);
+        else
+            Bat_Stop(&batR);
 
         // TODO BB 2021-06-24. Testing making a hole in the left bat.
         if (controls & J_START)
@@ -57,11 +62,12 @@ void main(void)
             // Bat_Hit(&batR, arand());
         }
 
+        Bat_Move(&batL);
+        Bat_Move(&batR);
         Ball_Move(&ball);        
-        if (ball.vx < 0)
-            Ball_CheckCollision(&ball, &batL);
-        else if (ball.vx > 0)
-            Ball_CheckCollision(&ball, &batR);
+        Ball_CheckCollision(&ball, &batL);
+        Ball_CheckCollision(&ball, &batR);
+        Ball_CheckGoal(&ball);
 
         wait_vbl_done();
     }

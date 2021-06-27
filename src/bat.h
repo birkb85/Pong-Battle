@@ -16,13 +16,16 @@ typedef struct Bat
     UINT8 y;
     UINT8 w;
     UINT8 h;
+    INT8 forceY;
     UINT8 isBatL;
 };
 
 extern void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL);
+extern INT8 Bat_GetVY(struct Bat *bat);
 extern void Bat_Move(struct Bat *bat);
-extern void Bat_MoveUp(struct Bat *bat);
-extern void Bat_MoveDown(struct Bat *bat);
+extern void Bat_Up(struct Bat *bat);
+extern void Bat_Down(struct Bat *bat);
+extern void Bat_Stop(struct Bat *bat);
 extern void Bat_Hit(struct Bat *bat, INT8 yTop);
 extern UINT8 Bat_CheckCollision(struct Bat *bat, INT8 yTop);
 

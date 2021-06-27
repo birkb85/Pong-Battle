@@ -1,6 +1,8 @@
 #include "bat.h"
 
 UINT8 bat_i;
+const UINT8 bat_forceAcc = 2;
+const INT8 bat_forceMax = 12;
 
 void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL)
 {
@@ -8,6 +10,7 @@ void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 til
     bat->y = y;
     bat->w = 8;
     bat->h = sizeof(bat->sprIds) << 3;
+    bat->forceY = 0;
     bat->isBatL = isBatL;
     
     for (bat_i = 0; bat_i < sizeof(bat->sprIds); bat_i++)
@@ -25,24 +28,38 @@ void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 til
     Bat_Move(bat);
 }
 
+INT8 Bat_GetVY(struct Bat *bat)
+{
+    return bat->forceY >> 2;
+}
+
 void Bat_Move(struct Bat *bat)
 {
+    bat->y += Bat_GetVY(bat);
     for (bat_i = 0; bat_i < sizeof(bat->sprIds); bat_i++)
     {
         move_sprite(bat->sprIds[bat_i], bat->x + sprOffsetX, bat->y + sprOffsetY + (bat_i << 3));
     }
 }
 
-void Bat_MoveUp(struct Bat *bat)
+void Bat_Up(struct Bat *bat)
 {
-    bat->y -= 2;
-    Bat_Move(bat);
+    if (bat->forceY > -bat_forceMax) 
+        bat->forceY -= bat_forceAcc;
 }
 
-void Bat_MoveDown(struct Bat *bat)
+void Bat_Down(struct Bat *bat)
 {
-    bat->y += 2;
-    Bat_Move(bat);
+    if (bat->forceY < bat_forceMax) 
+        bat->forceY += bat_forceAcc;
+}
+
+void Bat_Stop(struct Bat *bat)
+{
+    if (bat->forceY < 0)
+        bat->forceY += bat_forceAcc;
+    else if (bat->forceY > 0)
+        bat->forceY -= bat_forceAcc;
 }
 
 UINT8 bat_sprTemp[16];
