@@ -47,18 +47,21 @@ void main(void)
         // TODO BB 2021-06-24. Testing making a hole in the left bat.
         if (controls & J_START)
         {
-            Bat_Hit(&batL, arand());
+            // Bat_Hit(&batL, 2 /*arand()*/);
+            // Bat_CheckCollision(&batL, 2);
         }
 
         // TODO BB 2021-06-24. Testing making a hole in the right bat.
         if (controls & J_SELECT)
         {
-            Bat_Hit(&batR, arand());
+            // Bat_Hit(&batR, arand());
         }
 
-        Ball_Move(&ball);
-        Ball_CheckCollision(&ball, &batL);
-        Ball_CheckCollision(&ball, &batR);
+        Ball_Move(&ball);        
+        if (ball.vx < 0)
+            Ball_CheckCollision(&ball, &batL);
+        else if (ball.vx > 0)
+            Ball_CheckCollision(&ball, &batR);
 
         wait_vbl_done();
     }

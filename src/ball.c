@@ -21,7 +21,7 @@ void Ball_Reset(struct Ball *ball)
     ball->y = 68; // 144 / 2 - 4
 
     ball->vx = 1; // TODO BB 2021-06-21. Make random.
-    ball->vy = 0; // TODO BB 2021-06-21. Make random.
+    ball->vy = 1; // TODO BB 2021-06-21. Make random.
 }
 
 void Ball_Move(struct Ball *ball)
@@ -44,28 +44,27 @@ void Ball_Move(struct Ball *ball)
     move_sprite(ball->sprId, ball->x + sprOffsetX, ball->y + sprOffsetY);
 }
 
+UINT8 ball_batYBot;
+UINT8 ball_yDiff;
+INT8 ball_yTop;
+
 void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
 {
-    // if (ball->x + ball->w > bat->x && ball->x < bat->x + bat->w)
-    // {
-    //     UINT8 yBot = ball->y - (bat->y + bat->h); // TODO BB Regn ud hvordan jeg finder hvor de rammer hinanden.
-    // }
-
     if (ball->x + ball->w >= bat->x && ball->x < bat->x + bat->w)
-        if (bat->y < (UINT8)(bat->y + bat->h))
+    {
+        ball_batYBot = (UINT8)(bat->y + bat->h);
+        if (ball->y < ball_batYBot)
         {
-            if (ball->y + ball->h >= bat->y && ball->y < bat->y + bat->h)
+            ball_yDiff = ball_batYBot - ball->y;
+            if (ball_yDiff > 0 && ball_yDiff < bat->h + ball->h)
             {
-                if ((bat->isBatL && ball->vx < 0) || (!bat->isBatL && ball->vx > 0))
+                ball_yTop = bat->h - ball_yDiff;
+                if (Bat_CheckCollision(bat, ball_yTop))
+                {
                     ball->vx = -ball->vx;
+                    Bat_Hit(bat, ball_yTop);
+                }
             }
         }
-        else
-        {
-            if (ball->y < (UINT8)(bat->y + bat->h))
-            {
-                if ((bat->isBatL && ball->vx < 0) || (!bat->isBatL && ball->vx > 0))
-                    ball->vx = -ball->vx;
-            }
-        }
+    }
 }

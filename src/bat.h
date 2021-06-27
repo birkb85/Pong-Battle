@@ -24,5 +24,6 @@ extern void Bat_Move(struct Bat *bat);
 extern void Bat_MoveUp(struct Bat *bat);
 extern void Bat_MoveDown(struct Bat *bat);
 extern void Bat_Hit(struct Bat *bat, INT8 yTop);
+extern UINT8 Bat_CheckCollision(struct Bat *bat, INT8 yTop);
 
 #endif
