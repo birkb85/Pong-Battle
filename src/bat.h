@@ -15,12 +15,13 @@ typedef struct Bat
     UINT8 y;
     UINT8 w;
     UINT8 h;
-    INT8 forceY;
+    UINT8 dirY; // 0 = up, 1 = down
+    UINT8 forceY;
     UINT8 isBatL;
 };
 
 extern void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL);
-extern INT8 Bat_GetVY(struct Bat *bat);
+extern UINT8 Bat_GetVY(struct Bat *bat);
 extern void Bat_Move(struct Bat *bat);
 extern void Bat_Up(struct Bat *bat);
 extern void Bat_Down(struct Bat *bat);
