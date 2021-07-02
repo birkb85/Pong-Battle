@@ -91,7 +91,7 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
                         ball->dirX = 0;
                     else
                         ball->dirX = 1;
-                    ball->forceX = 48;
+                    ball->forceX = 64;
                     ball->dirY = bat->dirY;
                     ball->forceY = Bat_GetVY(bat) << 3;
                     Bat_Hit(bat, ball_yTop);
