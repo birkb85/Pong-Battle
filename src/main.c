@@ -6,6 +6,8 @@
 #include "../res/ball_spr.h"
 #include "bat.h"
 #include "ball.h"
+#include "../res/splash_data.c"
+#include "../res/splash_map.c"
 
 struct Bat batL;
 struct Bat batR;
@@ -28,12 +30,20 @@ void ResetGame()
 
 void main(void)
 {
+    set_bkg_data(0, 244, splash_data);
+    set_bkg_tiles(0, 0, 20, 18, splash_map);
+    SHOW_BKG;
+    DISPLAY_ON;
+    waitpad(0xFF);
+    waitpadup();
+    HIDE_BKG;
+
     ResetGame();
 
     SHOW_SPRITES;
-    DISPLAY_ON;
 
     waitpad(0xFF);
+    waitpadup();
 
     initarand(DIV_REG);
 
