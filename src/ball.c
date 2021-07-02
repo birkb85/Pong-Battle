@@ -1,6 +1,5 @@
 #include "ball.h"
 
-const INT8 ball_forceYAcc = 2;
 const INT8 ball_forceXMin = 32;
 
 void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex)
@@ -23,7 +22,7 @@ INT8 Ball_GetVX(struct Ball *ball)
 
 INT8 Ball_GetVY(struct Ball *ball)
 {
-    return ball->forceY >> 4;
+    return ball->forceY >> 2;
 }
 
 void Ball_StopX(struct Ball *ball)
@@ -36,12 +35,10 @@ void Ball_StopX(struct Ball *ball)
 
 void Ball_StopY(struct Ball *ball)
 {
-    if (ball->forceY < -ball_forceYAcc)
-        ball->forceY += ball_forceYAcc;
-    else if (ball->forceY > ball_forceYAcc)
-        ball->forceY -= ball_forceYAcc;
-    else
-        ball->forceY = 0;
+    if (ball->forceY < 0)
+        ball->forceY ++;
+    else if (ball->forceY > 0)
+        ball->forceY --;
 }
 
 void Ball_Move(struct Ball *ball)
@@ -88,10 +85,10 @@ void Ball_CheckCollision(struct Ball *ball, struct Bat *bat)
                 if (Bat_CheckCollision(bat, ball_yTop))
                 {
                     if (ball->forceX > 0)
-                        ball->forceX = -64;
+                        ball->forceX = -48;
                     else
-                        ball->forceX = 64;
-                    ball->forceY = Bat_GetVY(bat) << 5;
+                        ball->forceX = 48;
+                    ball->forceY = Bat_GetVY(bat) << 3;
                     Bat_Hit(bat, ball_yTop);
                 }
             }
