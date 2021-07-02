@@ -1,6 +1,6 @@
 #include "ball.h"
 
-const INT8 ball_forceXMin = 32;
+const INT8 ball_forceXMin = 16;
 
 void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex)
 {
