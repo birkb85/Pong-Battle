@@ -4,7 +4,6 @@
 #include <gb/gb.h>
 #include <string.h>
 #include "../res/bat_spr.h"
-#include "../res/bat_col_spr.h"
 #include "global.h"
 
 typedef struct Bat
