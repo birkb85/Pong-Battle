@@ -64,18 +64,13 @@ void main(void)
         else
             Bat_Stop(&batR);
 
-        // TODO BB 2021-06-24. Testing making a hole in the left bat.
-        if (controls & J_START)
-        {
-            // Bat_Hit(&batL, 2 /*arand()*/);
-            // Bat_CheckCollision(&batL, 2);
-        }
+        // if (controls & J_START)
+        // {
+        // }
 
-        // TODO BB 2021-06-24. Testing making a hole in the right bat.
-        if (controls & J_SELECT)
-        {
-            // Bat_Hit(&batR, arand());
-        }
+        // if (controls & J_SELECT)
+        // {
+        // }
 
         Bat_Move(&batL);
         Bat_Move(&batR);

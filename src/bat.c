@@ -5,6 +5,8 @@ const UINT8 bat_forceMax = 6;
 
 void Bat_Setup(struct Bat *bat, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL)
 {
+    bat->w = 4;
+    bat->h = sizeof(bat->sprIds) << 3;
     if (isBatL)
     {
         bat->x = 8;
@@ -12,11 +14,9 @@ void Bat_Setup(struct Bat *bat, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8
     }
     else
     {
-        bat->x = 144;
+        bat->x = 144 + (8 - bat->w);
         bat->y = 24;
     }
-    bat->w = 8;
-    bat->h = sizeof(bat->sprIds) << 3;
     bat->dirY = 0;
     bat->forceY = 0;
     bat->isBatL = isBatL;
@@ -50,7 +50,10 @@ void Bat_Move(struct Bat *bat)
 
     for (bat_i = 0; bat_i < sizeof(bat->sprIds); bat_i++)
     {
-        move_sprite(bat->sprIds[bat_i], bat->x + sprOffsetX, bat->y + sprOffsetY + (bat_i << 3));
+        if (bat->isBatL)
+            move_sprite(bat->sprIds[bat_i], bat->x + sprOffsetX, bat->y + sprOffsetY + (bat_i << 3));
+        else
+            move_sprite(bat->sprIds[bat_i], (bat->x + sprOffsetX) - (8 - bat->w), bat->y + sprOffsetY + (bat_i << 3));
     }
 }
 
