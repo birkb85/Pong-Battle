@@ -18,7 +18,7 @@ struct Ball
     UINT8 forceY;
 };
 
-extern void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isInitialized);
+extern void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isInit);
 extern UINT8 Ball_GetVX(struct Ball *ball);
 extern UINT8 Ball_GetVY(struct Ball *ball);
 extern void Ball_Move(struct Ball *ball);

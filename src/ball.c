@@ -2,7 +2,7 @@
 
 const UINT8 ball_forceXMin = 16;
 
-void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isInitialized)
+void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isInit)
 {
     set_sprite_tile(sprStartIndex, tileStartIndex);
     ball->sprId = sprStartIndex;
@@ -11,7 +11,7 @@ void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex, UI
     ball->y = 68; //(SCREENHEIGHT >> 1) - 4;
     ball->w = 8;
     ball->h = 8;
-    if (!isInitialized)
+    if (isInit)
         ball->dirX = 0; // TODO BB 2021-06-21. Make random.
     ball->dirY = 0;
     ball->forceX = ball_forceXMin;

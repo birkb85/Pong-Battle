@@ -15,9 +15,8 @@ struct Bat batR;
 struct Ball ball;
 
 UINT8 controls;
-UINT8 isInitialized;
 
-void ResetGame()
+void ResetGame(UINT8 isInit)
 {
     set_sprite_data(0, 12, batSpr);
     set_sprite_data(12, 12, batSpr);
@@ -26,13 +25,11 @@ void ResetGame()
     Bat_Setup(&batL, 0, 0, TRUE);
     Bat_Setup(&batR, 12, 12, FALSE);
 
-    Ball_Setup(&ball, 24, 24, isInitialized);
+    Ball_Setup(&ball, 24, 24, isInit);
 }
 
 void main(void)
 {
-    isInitialized = FALSE;
-
     set_bkg_data(0, 244, splash_data);
     set_bkg_tiles(0, 0, 20, 18, splash_map);
     SHOW_BKG;
@@ -41,7 +38,7 @@ void main(void)
     waitpadup();
     HIDE_BKG;
 
-    ResetGame();
+    ResetGame(TRUE);
 
     SHOW_SPRITES;    
 
@@ -49,8 +46,6 @@ void main(void)
     waitpadup();
 
     initarand(DIV_REG);
-
-    isInitialized = TRUE;
 
     while (1)
     {
@@ -90,7 +85,7 @@ void main(void)
 
         if (Ball_CheckGoal(&ball))
         {
-            ResetGame();
+            ResetGame(FALSE);
         }
 
         wait_vbl_done();
