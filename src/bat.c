@@ -3,10 +3,18 @@
 UINT8 bat_i;
 const UINT8 bat_forceMax = 6;
 
-void Bat_Setup(struct Bat *bat, UINT8 x, UINT8 y, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL)
+void Bat_Setup(struct Bat *bat, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL)
 {
-    bat->x = x;
-    bat->y = y;
+    if (isBatL)
+    {
+        bat->x = 8;
+        bat->y = 24;
+    }
+    else
+    {
+        bat->x = 144;
+        bat->y = 24;
+    }
     bat->w = 8;
     bat->h = sizeof(bat->sprIds) << 3;
     bat->dirY = 0;
