@@ -16,6 +16,17 @@ struct Ball ball;
 
 UINT8 controls;
 
+void ShowTitleScreen()
+{
+    set_bkg_data(0, 244, splash_data);
+    set_bkg_tiles(0, 0, 20, 18, splash_map);
+    SHOW_BKG;
+    DISPLAY_ON;
+    waitpad(0xFF);
+    waitpadup();
+    HIDE_BKG;
+}
+
 void ResetGame(UINT8 isInit)
 {
     set_sprite_data(0, 12, batSpr);
@@ -30,13 +41,7 @@ void ResetGame(UINT8 isInit)
 
 void main(void)
 {
-    set_bkg_data(0, 244, splash_data);
-    set_bkg_tiles(0, 0, 20, 18, splash_map);
-    SHOW_BKG;
-    DISPLAY_ON;
-    waitpad(0xFF);
-    waitpadup();
-    HIDE_BKG;
+    ShowTitleScreen();
 
     ResetGame(TRUE);
 

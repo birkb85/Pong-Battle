@@ -33,7 +33,7 @@ void Bat_Setup(struct Bat *bat, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8
 
     memset(&bat->collision[0], 0xFF, sizeof(bat->collision));
 
-    Bat_Move(bat);
+    Bat_Draw(bat);
 }
 
 UINT8 Bat_GetVY(struct Bat *bat)
@@ -48,6 +48,11 @@ void Bat_Move(struct Bat *bat)
     else if (bat->dirY == 1)
         bat->y += Bat_GetVY(bat);
 
+    Bat_Draw(bat);
+}
+
+void Bat_Draw(struct Bat *bat)
+{
     for (bat_i = 0; bat_i < sizeof(bat->sprIds); bat_i++)
     {
         if (bat->isBatL)

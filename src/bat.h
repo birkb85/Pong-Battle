@@ -23,6 +23,7 @@ typedef struct Bat
 extern void Bat_Setup(struct Bat *bat, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8 isBatL);
 extern UINT8 Bat_GetVY(struct Bat *bat);
 extern void Bat_Move(struct Bat *bat);
+extern void Bat_Draw(struct Bat *bat);
 extern void Bat_Up(struct Bat *bat);
 extern void Bat_Down(struct Bat *bat);
 extern void Bat_Stop(struct Bat *bat);

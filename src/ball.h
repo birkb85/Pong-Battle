@@ -22,6 +22,7 @@ extern void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIn
 extern UINT8 Ball_GetVX(struct Ball *ball);
 extern UINT8 Ball_GetVY(struct Ball *ball);
 extern void Ball_Move(struct Ball *ball);
+extern void Ball_Draw(struct Ball *ball);
 extern void Ball_CheckCollision(struct Ball *ball, struct Bat *bat);
 extern UINT8 Ball_CheckGoal(struct Ball *ball);
 

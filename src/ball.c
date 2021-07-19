@@ -16,6 +16,8 @@ void Ball_Setup(struct Ball *ball, UINT8 sprStartIndex, UINT8 tileStartIndex, UI
     ball->dirY = 0;
     ball->forceX = ball_forceXMin;
     ball->forceY = 0;
+
+    Ball_Draw(ball);
 }
 
 UINT8 Ball_GetVX(struct Ball *ball)
@@ -65,6 +67,11 @@ void Ball_Move(struct Ball *ball)
     else if (ball->dirY == 1)
         ball->y += Ball_GetVY(ball);
 
+    Ball_Draw(ball);
+}
+
+void Ball_Draw(struct Ball *ball)
+{
     move_sprite(ball->sprId, ball->x + sprOffsetX, ball->y + sprOffsetY);
 }
 
