@@ -4,10 +4,15 @@
 #include <rand.h>
 #include "../res/bat_spr.h"
 #include "../res/ball_spr.h"
-#include "bat.h"
-#include "ball.h"
 #include "../res/splash_data.c"
 #include "../res/splash_map.c"
+#include "../res/score_spr.h"
+#include "../res/score0_map.h"
+#include "../res/score1_map.h"
+#include "../res/score2_map.h"
+#include "../res/score3_map.h"
+#include "bat.h"
+#include "ball.h"
 
 struct Bat batL;
 struct Bat batR;
@@ -15,6 +20,9 @@ struct Bat batR;
 struct Ball ball;
 
 UINT8 controls;
+
+UINT8 scoreVisible;
+UINT8 score;
 
 void ShowTitleScreen()
 {
@@ -25,6 +33,16 @@ void ShowTitleScreen()
     waitpad(0xFF);
     waitpadup();
     HIDE_BKG;
+    for (UINT8 x = 0; x < 20; x++)
+        for (UINT8 y = 0; y < 18; y++)
+            set_bkg_tile_xy(x, y, 0xFF);
+}
+
+void InitScore()
+{
+    scoreVisible = 0;
+    score = 0;
+    set_bkg_data(0, 160, scoreSpr);
 }
 
 void ResetGame(UINT8 isInit)
@@ -42,6 +60,8 @@ void ResetGame(UINT8 isInit)
 void main(void)
 {
     ShowTitleScreen();
+
+    InitScore();
 
     ResetGame(TRUE);
 
@@ -87,6 +107,39 @@ void main(void)
         {
             ResetGame(FALSE);
         }
+
+        scoreVisible--;
+        if (scoreVisible == 255)
+        {
+            switch (score)
+            {
+            case 0:
+                set_bkg_tiles(3, 5, 5, 8, score0Map);
+                break;
+
+            case 1:
+                set_bkg_tiles(3, 5, 5, 8, score1Map);
+                break;
+
+            case 2:
+                set_bkg_tiles(3, 5, 5, 8, score2Map);
+                break;
+
+            case 3:
+                set_bkg_tiles(3, 5, 5, 8, score3Map);
+                break;
+            
+            default:
+                break;
+            }
+            SHOW_BKG;
+
+            score++;
+            if (score > 3)
+                score = 0;
+        }
+        else if (scoreVisible == 31)
+            HIDE_BKG;
 
         wait_vbl_done();
     }
