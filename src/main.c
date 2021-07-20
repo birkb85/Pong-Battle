@@ -27,7 +27,7 @@ void ShowTitleScreen()
     set_bkg_tiles(0, 0, 20, 18, splash_map);
     SHOW_BKG;
     DISPLAY_ON;
-    waitpad(0xFF);
+    waitpad(J_START);
     waitpadup();
     HIDE_BKG;
     Global_ClearBKG();
@@ -40,7 +40,7 @@ void InitScore()
     Score_Setup(&scoreR, FALSE);
 }
 
-void ResetGame(UINT8 isInit)
+void ResetRound(UINT8 isInit)
 {
     set_sprite_data(0, 12, batSpr);
     set_sprite_data(12, 12, batSpr);
@@ -58,14 +58,13 @@ void main(void)
 
     InitScore();
 
-    ResetGame(TRUE);
+    ResetRound(TRUE);
 
     SHOW_SPRITES;
+
     SHOW_BKG;
-
-    waitpad(0xFF);
+    waitpad(J_START);
     waitpadup();
-
     HIDE_BKG;
 
     initarand(DIV_REG);
@@ -111,7 +110,7 @@ void main(void)
             Score_Draw(&scoreL);
             Score_Draw(&scoreR);
 
-            ResetGame(FALSE);
+            ResetRound(FALSE);
 
             SHOW_BKG;
             Global_Wait(120);
@@ -126,7 +125,8 @@ void main(void)
 
                 Global_Wait(30);
                 SHOW_BKG;
-                Global_Wait(120);
+                waitpad(J_START);
+                waitpadup();
                 HIDE_BKG;
             }
         }
