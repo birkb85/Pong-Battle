@@ -22,7 +22,7 @@ struct Ball ball;
 UINT8 controls;
 
 UINT8 scoreVisible;
-UINT8 score;
+UINT8 scoreL, scoreR;
 
 void ShowTitleScreen()
 {
@@ -33,15 +33,14 @@ void ShowTitleScreen()
     waitpad(0xFF);
     waitpadup();
     HIDE_BKG;
-    for (UINT8 x = 0; x < 20; x++)
-        for (UINT8 y = 0; y < 18; y++)
-            set_bkg_tile_xy(x, y, 0xFF);
+    Global_ClearBKG();
 }
 
 void InitScore()
 {
     scoreVisible = 0;
-    score = 0;
+    scoreL = 0;
+    scoreR = 0;
     set_bkg_data(0, 160, scoreSpr);
 }
 
@@ -111,7 +110,7 @@ void main(void)
         scoreVisible--;
         if (scoreVisible == 255)
         {
-            switch (score)
+            switch (scoreL)
             {
             case 0:
                 set_bkg_tiles(3, 5, 5, 8, score0Map);
@@ -134,9 +133,9 @@ void main(void)
             }
             SHOW_BKG;
 
-            score++;
-            if (score > 3)
-                score = 0;
+            scoreL++;
+            if (scoreL > 3)
+                scoreL = 0;
         }
         else if (scoreVisible == 31)
             HIDE_BKG;
