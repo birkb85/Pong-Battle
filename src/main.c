@@ -27,7 +27,7 @@ void ShowTitleScreen()
     set_bkg_tiles(0, 0, 20, 18, splash_map);
     SHOW_BKG;
     DISPLAY_ON;
-    waitpad(J_START);
+    waitpad(J_START | J_SELECT);
     waitpadup();
     HIDE_BKG;
     Global_ClearBKG();
@@ -63,7 +63,7 @@ void main(void)
     SHOW_SPRITES;
 
     SHOW_BKG;
-    waitpad(J_START);
+    waitpad(J_START | J_SELECT);
     waitpadup();
     HIDE_BKG;
 
@@ -125,7 +125,7 @@ void main(void)
 
                 Global_Wait(30);
                 SHOW_BKG;
-                waitpad(J_START);
+                waitpad(J_START | J_SELECT);
                 waitpadup();
                 HIDE_BKG;
             }
