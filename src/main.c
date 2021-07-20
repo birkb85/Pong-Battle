@@ -2,17 +2,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <rand.h>
-#include "../res/bat_spr.h"
+#include "ball.h"
+#include "bat.h"
+#include "score.h"
 #include "../res/ball_spr.h"
+#include "../res/bat_spr.h"
+#include "../res/score_spr.h"
 #include "../res/splash_data.c"
 #include "../res/splash_map.c"
-#include "../res/score_spr.h"
-#include "../res/score0_map.h"
-#include "../res/score1_map.h"
-#include "../res/score2_map.h"
-#include "../res/score3_map.h"
-#include "bat.h"
-#include "ball.h"
 
 struct Bat batL;
 struct Bat batR;
@@ -21,8 +18,8 @@ struct Ball ball;
 
 UINT8 controls;
 
-UINT8 scoreVisible;
-UINT8 scoreL, scoreR;
+struct Score scoreL;
+struct Score scoreR;
 
 void ShowTitleScreen()
 {
@@ -38,10 +35,9 @@ void ShowTitleScreen()
 
 void InitScore()
 {
-    scoreVisible = 0;
-    scoreL = 0;
-    scoreR = 0;
     set_bkg_data(0, 160, scoreSpr);
+    Score_Setup(&scoreL, TRUE);
+    Score_Setup(&scoreR, FALSE);
 }
 
 void ResetGame(UINT8 isInit)
@@ -64,10 +60,13 @@ void main(void)
 
     ResetGame(TRUE);
 
-    SHOW_SPRITES;    
+    SHOW_SPRITES;
+    SHOW_BKG;
 
     waitpad(0xFF);
     waitpadup();
+
+    HIDE_BKG;
 
     initarand(DIV_REG);
 
@@ -104,41 +103,33 @@ void main(void)
 
         if (Ball_CheckGoal(&ball))
         {
+            if (ball.dirX == 0)
+                Score_Add(&scoreR);
+            else if (ball.dirX == 1)
+                Score_Add(&scoreL);
+
+            Score_Draw(&scoreL);
+            Score_Draw(&scoreR);
+
             ResetGame(FALSE);
-        }
 
-        scoreVisible--;
-        if (scoreVisible == 255)
-        {
-            switch (scoreL)
-            {
-            case 0:
-                set_bkg_tiles(3, 5, 5, 8, score0Map);
-                break;
-
-            case 1:
-                set_bkg_tiles(3, 5, 5, 8, score1Map);
-                break;
-
-            case 2:
-                set_bkg_tiles(3, 5, 5, 8, score2Map);
-                break;
-
-            case 3:
-                set_bkg_tiles(3, 5, 5, 8, score3Map);
-                break;
-            
-            default:
-                break;
-            }
             SHOW_BKG;
-
-            scoreL++;
-            if (scoreL > 3)
-                scoreL = 0;
-        }
-        else if (scoreVisible == 31)
+            Global_Wait(120);
             HIDE_BKG;
+
+            if (scoreL.score == 3 || scoreR.score == 3)
+            {
+                Score_Reset(&scoreL);
+                Score_Reset(&scoreR);
+                Score_Draw(&scoreL);
+                Score_Draw(&scoreR);
+
+                Global_Wait(30);
+                SHOW_BKG;
+                Global_Wait(120);
+                HIDE_BKG;
+            }
+        }
 
         wait_vbl_done();
     }

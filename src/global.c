@@ -9,3 +9,14 @@ void Global_ClearBKG()
         for (UINT8 y = 0; y < 18; y++)
             set_bkg_tile_xy(x, y, 0xFF);
 }
+
+UINT8 frame;
+void Global_Wait(UINT8 frames)
+{
+    frame = 0;
+    while (frame < frames)
+    {
+        frame++;
+        wait_vbl_done();
+    }
+}

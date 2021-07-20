@@ -8,15 +8,10 @@ void Bat_Setup(struct Bat *bat, UINT8 sprStartIndex, UINT8 tileStartIndex, UINT8
     bat->w = 4;
     bat->h = sizeof(bat->sprIds) << 3;
     if (isBatL)
-    {
         bat->x = 8;
-        bat->y = 24;
-    }
     else
-    {
         bat->x = 144 + (8 - bat->w);
-        bat->y = 24;
-    }
+    bat->y = 24;
     bat->dirY = 0;
     bat->forceY = 0;
     bat->isBatL = isBatL;
