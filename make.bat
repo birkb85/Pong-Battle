@@ -18,7 +18,7 @@ C:\Gameboy\gbdk\bin\lcc -debug -c -o obj\score1_map.o res\score1_map.c
 C:\Gameboy\gbdk\bin\lcc -debug -c -o obj\score2_map.o res\score2_map.c
 C:\Gameboy\gbdk\bin\lcc -debug -c -o obj\score3_map.o res\score3_map.c
 
-C:\Gameboy\gbdk\bin\lcc -debug -o build\PongBattle.gb^
+C:\Gameboy\gbdk\bin\lcc -debug -Wm-yn"Pong_Battle" -o build\PongBattle.gb^
  obj\ball.o^
  obj\bat.o^
  obj\global.o^
