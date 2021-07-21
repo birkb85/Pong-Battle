@@ -1,5 +1,10 @@
 # Pong-Battle
 A 2-player Pong battling game for the Game Boy<br/>
+<br/>
+Controls:<br/>
+Player 1: dpad up and down<br/>
+Player 2: A and B<br/>
+Start game: Start or Select<br/>
 
 ## Newest release
 Find newest release here:<br/>
