@@ -13,6 +13,9 @@ https://github.com/birkb85/Pong-Battle/releases<br/>
 ## Want to compile the project yourself?
 Get GBDK from here:<br/>
 https://gbdk-2020.github.io/gbdk-2020/<br/>
+Or get specific version of GBDK from here:<br/>
+https://github.com/gbdk-2020/gbdk-2020/releases<br/>
+This project is build with GBDK v4.0.3.<br/>
 Unzip the file and place the gbdk folder here:<br/>
 *C:\Gameboy\gbdk*<br/>
 
